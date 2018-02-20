@@ -2,6 +2,8 @@
 
 [[ -f /opt/local/etc/bash_completion ]] && . /opt/local/etc/bash_completion
 
+export SINGULARITY_CACHEDIR=/singularity/cache
+
 if [[ "$#" -eq 0 ]]; then 
   cd /build
   python -u install.py

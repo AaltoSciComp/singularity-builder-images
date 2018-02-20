@@ -18,7 +18,6 @@ RUN yum update -y && yum install -y       \
   openssh                                 \
   python                                  \
   python-yaml                             \
-  squashfs-tools                          \
   tcl                                     \
   wget                                    \
   which                                   \
@@ -35,6 +34,13 @@ RUN cd /tmp && \
   make && \
   make install && \
   rm -r /tmp/singularity*
+  
+RUN yum update -y && yum install -y       \
+  python-jinja2                           \
+  squashfs-tools                          \
+  && yum clean all
+
+RUN mkdir /singularity
 
 COPY ./lmod.lmodrc.lua /etc/lmod.lmodrc.lua
 
