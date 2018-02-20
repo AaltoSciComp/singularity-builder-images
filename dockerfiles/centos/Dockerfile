@@ -26,10 +26,13 @@ RUN yum update -y && yum install -y       \
 RUN mkdir /build
 
 RUN cd /tmp && \
-  VERSION=2.4.2 && \
-  wget https://github.com/singularityware/singularity/releases/download/$VERSION/singularity-$VERSION.tar.gz && \
-  tar xvf singularity-$VERSION.tar.gz && \
-  cd singularity-$VERSION && \
+#  VERSION=2.4.2 && \
+#  wget https://github.com/singularityware/singularity/releases/download/$VERSION/singularity-$VERSION.tar.gz && \
+#  tar xvf singularity-$VERSION.tar.gz && \
+#  cd singularity-$VERSION && \
+  git clone https://github.com/singularityware/singularity.git && \
+  cd singularity && \
+  ./autogen.sh && \
   ./configure --prefix=/usr/local && \
   make && \
   make install && \
