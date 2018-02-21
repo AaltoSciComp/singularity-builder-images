@@ -14,13 +14,21 @@ RUN yum update -y && yum install -y       \
   cmake                                   \
   curl                                    \
   git                                     \
+  libarchive-devel                        \
+  libuuid-devel                           \
   Lmod                                    \
   openssh                                 \
+  openssl-devel                           \
   python                                  \
   python-yaml                             \
   tcl                                     \
   wget                                    \
   which                                   \
+  && yum clean all
+
+RUN yum update -y && yum install -y       \
+  python-jinja2                           \
+  squashfs-tools                          \
   && yum clean all
 
 RUN mkdir /build
@@ -32,16 +40,12 @@ RUN cd /tmp && \
 #  cd singularity-$VERSION && \
   git clone https://github.com/singularityware/singularity.git && \
   cd singularity && \
+  git checkout development && \
   ./autogen.sh && \
   ./configure --prefix=/usr/local && \
   make && \
   make install && \
   rm -r /tmp/singularity*
-  
-RUN yum update -y && yum install -y       \
-  python-jinja2                           \
-  squashfs-tools                          \
-  && yum clean all
 
 RUN mkdir /singularity
 
