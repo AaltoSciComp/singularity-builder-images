@@ -33,11 +33,11 @@ RUN yum update -y && yum install -y       \
 
 RUN mkdir /build
 
-ARG COMMIT=HEAD
-ARG BRANCH=release-2.4
+ARG COMMIT=da434579e6f8956428f92e7efa1803d421416b55
+ARG BRANCH=origin/nvcr-io-registry-fixes
 
 RUN cd /tmp && \
-  git clone https://github.com/singularityware/singularity.git && \
+  git clone https://github.com/jtriley/singularity.git && \
   cd singularity && \
   git branch "$BRANCH" && \
   git checkout "$COMMIT" && \
