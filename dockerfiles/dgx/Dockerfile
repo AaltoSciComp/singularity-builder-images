@@ -21,6 +21,7 @@ RUN yum update -y && yum install -y       \
   openssl-devel                           \
   python                                  \
   python-yaml                             \
+  python-pip                              \
   tcl                                     \
   wget                                    \
   which                                   \
@@ -33,21 +34,26 @@ RUN yum update -y && yum install -y       \
 
 RUN mkdir /build
 
-ARG COMMIT=da434579e6f8956428f92e7efa1803d421416b55
-ARG BRANCH=origin/nvcr-io-registry-fixes
+ARG RELEASE=2.5.0
 
 RUN cd /tmp && \
-  git clone https://github.com/jtriley/singularity.git && \
-  cd singularity && \
-  git branch "$BRANCH" && \
-  git checkout "$COMMIT" && \
-  ./autogen.sh && \
+  wget https://github.com/singularityware/singularity/releases/download/$RELEASE/singularity-$RELEASE.tar.gz && \
+  tar xvf singularity-$RELEASE.tar.gz && \
+  cd singularity-$RELEASE && \
   ./configure --prefix=/usr/local && \
   make && \
   make install && \
   rm -r /tmp/singularity*
 
 RUN mkdir /singularity
+
+#RUN cd /tmp && \
+#  git clone https://www.github.com/singularityhub/sregistry-cli.git && \
+#  cd sregistry-cli && \
+#  pip install -U setuptools && \
+#  python setup.py install && \
+#  pip install sregistry[all] && \
+#  rm -r /tmp/sregistry-cli
 
 COPY ./lmod.lmodrc.lua /etc/lmod.lmodrc.lua
 

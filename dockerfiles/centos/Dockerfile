@@ -33,15 +33,26 @@ RUN yum update -y && yum install -y       \
 
 RUN mkdir /build
 
-ARG COMMIT=HEAD
-ARG BRANCH=release-2.4
+#ARG COMMIT=HEAD
+#ARG BRANCH=release-2.4
+
+#RUN cd /tmp && \
+#  git clone https://github.com/singularityware/singularity.git && \
+#  cd singularity && \
+#  git branch "$BRANCH" && \
+#  git checkout "$COMMIT" && \
+#  ./autogen.sh && \
+#  ./configure --prefix=/usr/local && \
+#  make && \
+#  make install && \
+#  rm -r /tmp/singularity*
+
+ARG RELEASE=2.5.0
 
 RUN cd /tmp && \
-  git clone https://github.com/singularityware/singularity.git && \
-  cd singularity && \
-  git branch "$BRANCH" && \
-  git checkout "$COMMIT" && \
-  ./autogen.sh && \
+  wget https://github.com/singularityware/singularity/releases/download/$RELEASE/singularity-$RELEASE.tar.gz && \
+  tar xvf singularity-$RELEASE.tar.gz && \
+  cd singularity-$RELEASE && \
   ./configure --prefix=/usr/local && \
   make && \
   make install && \
