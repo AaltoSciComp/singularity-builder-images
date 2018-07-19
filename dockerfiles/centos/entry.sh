@@ -2,6 +2,8 @@
 
 [[ -f /opt/local/etc/bash_completion ]] && . /opt/local/etc/bash_completion
 
+export SREGISTRY_DATABASE=/singularity/baseimages/sregistry.db
+export SREGISTRY_STORAGE=/singularity/baseimages/cache
 export SINGULARITY_CACHEDIR=/singularity/cache
 export SINGULARITY_TMPDIR=/singularity/cache/tmp
 
