@@ -7,18 +7,25 @@ export SREGISTRY_STORAGE=/singularity/baseimages/cache
 export SINGULARITY_CACHEDIR=/singularity/cache
 export SINGULARITY_TMPDIR=/singularity/cache/tmp
 
-if [[ "$#" -eq 0 ]]; then 
-  cd /build
-  python -u install.py
-  exit $?
-elif [[ "$1" == "lmod" ]]; then
-  [[ -f /usr/share/lmod/5.8/init/bash ]] && . /usr/share/lmod/5.8/init/bash
-  exec "${@:2}"
-elif [[ "$1" == "build" ]]; then
-  cd /build
-  python -u install.py ${@:2}
-  exit $?
-else
-  cd /build
-  exec "$@"
-fi
+for ARG in "$@"
+do
+case $ARG in 
+  build)
+    cd /build
+    shift
+    python -u install.py "$@"
+    exit $?
+    ;;
+  lmod)
+    [[ -f /usr/share/lmod/5.8/init/bash ]] && . /usr/share/lmod/5.8/init/bash
+    shift
+    exec "$@"
+    exit $?
+    ;;
+  *)
+    cd /build
+    exec "$@"
+    exit $?
+    ;;
+esac
+done

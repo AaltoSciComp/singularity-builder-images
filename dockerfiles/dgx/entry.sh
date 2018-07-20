@@ -21,9 +21,11 @@ case $ARG in
     shift
     exec "$@"
     exit $?
+    ;;
   *)
     cd /build
     exec "$@"
     exit $?
+    ;;
 esac
 done
