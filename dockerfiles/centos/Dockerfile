@@ -47,7 +47,7 @@ RUN mkdir /build
 #  make install && \
 #  rm -r /tmp/singularity*
 
-ARG RELEASE=2.5.0
+ARG RELEASE=2.5.2
 
 RUN cd /tmp && \
   wget https://github.com/singularityware/singularity/releases/download/$RELEASE/singularity-$RELEASE.tar.gz && \
