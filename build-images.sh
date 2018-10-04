@@ -1,12 +1,18 @@
 #!/bin/bash
 
 PUSH=1
+WORKER_UID=1000
 
 for ARG in "$@"
 do
 case $ARG in 
   -p|--push)
   PUSH=0
+  shift
+  ;;
+  -u|--uid)
+  WORKER_UID=$2
+  shift
   shift
   ;;
 esac
@@ -23,7 +29,7 @@ for OSFOLDER in $OSFOLDERS; do
   OS=$(basename $OSFOLDER)
   if [ -f $OSFOLDER/Dockerfile ]; then
     BUILD_RESULT=1
-    docker build -t aaltoscienceit/singularity-builder-images:$OS $OSFOLDER
+    docker build --build-arg WORKER_UID=$WORKER_UID -t aaltoscienceit/singularity-builder-images:$OS $OSFOLDER
     BUILD_RESULT=$?
     if [ $BUILD_RESULT -eq 0 ]; then
       echo 'Build of "'$OS'" was successful.'

@@ -47,10 +47,10 @@ RUN mkdir /build
 #  make install && \
 #  rm -r /tmp/singularity*
 
-ARG RELEASE=2.5.2
+ARG RELEASE=2.6.0
 
 RUN cd /tmp && \
-  wget https://github.com/singularityware/singularity/releases/download/$RELEASE/singularity-$RELEASE.tar.gz && \
+  wget https://github.com/sylabs/singularity/releases/download/$RELEASE/singularity-$RELEASE.tar.gz && \
   tar xvf singularity-$RELEASE.tar.gz && \
   cd singularity-$RELEASE && \
   ./configure --prefix=/usr/local && \

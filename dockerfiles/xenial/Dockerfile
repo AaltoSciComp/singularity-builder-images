@@ -55,6 +55,17 @@ RUN mkdir /singularity
 #  pip install sregistry[all] && \
 #  rm -r /tmp/sregistry-cli
 
+RUN yum update -y && yum install -y       \
+  sudo                                    \
+  && yum clean all
+
+ARG WORKER_UID=1000
+
+RUN groupadd -g $WORKER_UID buildbot && \
+    useradd -m -s /bin/bash -u $WORKER_UID -g $WORKER_UID buildbot && \
+    gpasswd -a buildbot wheel && \
+    chown -Rh $WORKER_UID:$WORKER_UID /home/buildbot
+
 COPY ./lmod.lmodrc.lua /etc/lmod.lmodrc.lua
 
 COPY ./entry.sh /entry.sh
@@ -64,3 +75,5 @@ ENTRYPOINT ["/entry.sh"]
 RUN yum update -y                         \
   && yum upgrade -y                       \
   && yum clean all
+
+USER buildbot
