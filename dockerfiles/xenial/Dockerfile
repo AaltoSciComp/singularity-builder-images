@@ -47,14 +47,6 @@ RUN cd /tmp && \
 
 RUN mkdir /singularity
 
-#RUN cd /tmp && \
-#  git clone https://www.github.com/singularityhub/sregistry-cli.git && \
-#  cd sregistry-cli && \
-#  pip install -U setuptools && \
-#  python setup.py install && \
-#  pip install sregistry[all] && \
-#  rm -r /tmp/sregistry-cli
-
 RUN yum update -y && yum install -y       \
   sudo                                    \
   && yum clean all

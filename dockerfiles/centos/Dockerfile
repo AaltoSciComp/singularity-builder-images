@@ -21,6 +21,7 @@ RUN yum update -y && yum install -y       \
   openssl-devel                           \
   python                                  \
   python-yaml                             \
+  python-pip                              \
   tcl                                     \
   wget                                    \
   which                                   \
@@ -32,20 +33,6 @@ RUN yum update -y && yum install -y       \
   && yum clean all
 
 RUN mkdir /build
-
-#ARG COMMIT=HEAD
-#ARG BRANCH=release-2.4
-
-#RUN cd /tmp && \
-#  git clone https://github.com/singularityware/singularity.git && \
-#  cd singularity && \
-#  git branch "$BRANCH" && \
-#  git checkout "$COMMIT" && \
-#  ./autogen.sh && \
-#  ./configure --prefix=/usr/local && \
-#  make && \
-#  make install && \
-#  rm -r /tmp/singularity*
 
 ARG RELEASE=2.6.0
 
@@ -59,6 +46,17 @@ RUN cd /tmp && \
   rm -r /tmp/singularity*
 
 RUN mkdir /singularity
+
+RUN yum update -y && yum install -y       \
+  sudo                                    \
+  && yum clean all
+
+ARG WORKER_UID=1000
+
+RUN groupadd -g $WORKER_UID buildbot && \
+    useradd -m -s /bin/bash -u $WORKER_UID -g $WORKER_UID buildbot && \
+    gpasswd -a buildbot wheel && \
+    chown -Rh $WORKER_UID:$WORKER_UID /home/buildbot
 
 COPY ./lmod.lmodrc.lua /etc/lmod.lmodrc.lua
 
